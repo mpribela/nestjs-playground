@@ -1,15 +1,6 @@
-import {
-  GetObjectCommand,
-  ListObjectsCommand,
-  S3Client,
-} from '@aws-sdk/client-s3';
-import { AbstractClient } from './abstract.client';
-import {
-  Injectable,
-  InternalServerErrorException,
-  Logger,
-  NotFoundException,
-} from '@nestjs/common';
+import {GetObjectCommand, ListObjectsCommand, S3Client,} from '@aws-sdk/client-s3';
+import {AbstractClient} from './abstract.client';
+import {Injectable, InternalServerErrorException, Logger, NotFoundException,} from '@nestjs/common';
 
 @Injectable()
 export class AwsClient implements AbstractClient {
@@ -29,7 +20,12 @@ export class AwsClient implements AbstractClient {
       },
     });
     this.s3Client
-      .send(new ListObjectsCommand({ Bucket: 'test-bucket', MaxKeys: 1 }))
+        .send(
+            new ListObjectsCommand({
+              Bucket: process.env.AWS_BUCKET_NAME,
+              MaxKeys: 1,
+            }),
+        )
       .then(() => this.logger.log('AWS client initialised successfully'))
       .catch(() => {
         this.logger.fatal('AWS client initialisation failed');
@@ -41,7 +37,7 @@ export class AwsClient implements AbstractClient {
     try {
       const { ContentType } = await this.s3Client.send(
         new GetObjectCommand({
-          Bucket: 'test-bucket',
+          Bucket: process.env.AWS_BUCKET_NAME,
           Key: fileName,
         }),
       );

@@ -1,5 +1,5 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { AbstractClient } from '../client/abstract.client';
+import {Inject, Injectable} from '@nestjs/common';
+import {AbstractClient} from '../client/abstract.client';
 
 @Injectable()
 export class FileService {
@@ -7,5 +7,9 @@ export class FileService {
 
   async getFileContentType(fileName: string): Promise<string> {
     return await this.cloudClient.getFileContentType(fileName);
+  }
+
+  async uploadFile(file: Express.Multer.File) {
+    await this.cloudClient.uploadFile(file);
   }
 }

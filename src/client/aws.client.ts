@@ -49,7 +49,7 @@ export class AwsClient implements AbstractClient {
   }
 
   async uploadFile(file: Express.Multer.File): Promise<void> {
-    const fileName = file.filename ?? `${randomUUID()}.png`;
+    const fileName = file.originalname ?? `${randomUUID()}.png`;
     try {
       await this.s3Client.send(
           new PutObjectCommand({

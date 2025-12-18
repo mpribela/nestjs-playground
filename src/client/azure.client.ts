@@ -35,7 +35,7 @@ export class AzureClient implements AbstractClient {
   }
 
   async uploadFile(file: Express.Multer.File): Promise<void> {
-    const fileName = file.filename ?? `${randomUUID()}.png`;
+    const fileName = file.originalname ?? `${randomUUID()}.png`;
     try {
       await this.containerClient
           .getBlockBlobClient(fileName)

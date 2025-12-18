@@ -38,7 +38,7 @@ export class CloudController {
   ): Promise<FileInfoDto> {
     await this.fileService.uploadFile(file);
     return {
-      fileName: file.filename,
+      fileName: file.originalname,
       contentType: file.mimetype,
     };
   }
